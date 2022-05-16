@@ -22,20 +22,6 @@ class UserSeeder extends Seeder
                'password'=> bcrypt('admin123'),
                'role'=>'super admin'
             ],
-            [
-                'name'=>'Normal',
-                'ic_number'=>'23456',
-                'email'=>'normal@slp.com',
-                'password'=> bcrypt('normal123'),
-                'role'=>'normal'
-            ],
-            [
-                'name'=>'Client',
-                'ic_number'=>'34567',
-                'email'=>'client@slp.com',
-                'password'=> bcrypt('client123'),
-                'role'=>'client'
-            ],
         ];
 
         foreach ($user as $key => $value) {
