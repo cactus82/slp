@@ -193,7 +193,7 @@
                                                                     {{ basename($item->original_name) }}</a>
                                                                 <span class="mailbox-attachment-size">
                                                                     {{ $item->file_size }}KB
-                                                                    @if (in_array($data->status_borang_id,array(3,7,8)))
+                                                                    @if (in_array($borang->status_borang_id,array(3,7,8)))
                                                                     <a href="/permit/peniaga/deletefile/haiwan/{{ $item->id }}"
                                                                         onclick="return confirm('Adakah anda pasti untuk delete fail ini?')"
                                                                         class="btn btn-default btn-xs pull-right"><i
