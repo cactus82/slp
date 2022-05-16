@@ -78,11 +78,11 @@
             <div class="modal-header">
                 <h4 class="modal-title">Pengguna Baru</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>                
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div id="newDataError" style="display: none" class="alert alert-danger"></div>
             <form id="newUserForm" data-parsley-validate="">
-                {{ csrf_field() }}
+                @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -141,7 +141,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button id="btnNewUser" class="btn btn-primary">Save</button>
+                    <button type="button" id="btnNewUser" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
@@ -155,10 +155,12 @@
             <div class="modal-header">
                 <h4 class="modal-title">Kemaskini Data Pengguna</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>                
+                    <span aria-hidden="true">×</span></button>
             </div>
+            <div id="editDataError" style="display: none" class="alert alert-danger"></div>
             <form id="editUserForm" data-parsley-validate="">
-                {{ csrf_field() }}
+                @csrf
+                <input type="hidden" name="user_id" id="user_id" value="">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -208,26 +210,16 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Password</label>
+                                <label>Reset Password (optional)</label>
                                 <input type="password" class="form-control" id="password_edit" name="password_edit"
                                     required data-parsley-error-message="<p class='text-red'>Password diperlukan!</p>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Password Re-type</label>
-                                <input type="password" class="form-control" id="password_retype_edit"
-                                    name="password_retype_edit" required
-                                    data-parsley-error-message="<p class='text-red'>Diperlukan!</p>">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button id="btnUpdateUser" class="btn btn-primary">Save</button>
+                    <button type="button" id="btnUpdateUser" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
@@ -325,7 +317,7 @@ function addDataTableRow(response){
             +editButton
             +deleteButton
             '</div>';
-    
+
         //Append row to body
         $("#tablePengguna tbody").append('<tr>'
             +'<td class="hideable">'+data.id+'</td>'
@@ -365,7 +357,7 @@ $('#tablePengguna').on("click",".btnDeleteUser",function(){
                 },
             dataType: 'JSON',
             success: function (response) {
-                addDataTableRow(response);             
+                addDataTableRow(response);
             }
         });
     }
@@ -411,10 +403,6 @@ $('#btnNewUser').click(function(e){
 $('#btnUpdateUser').click(function(e){
     e.preventDefault();
 
-    alert("In Progress");
-    $('#modal-edit-user').modal('hide');
-    return;
-
     if("{{Auth::user()->role}}=='super admin'"){
         //remove required for role
         $('#role_edit').prop('required',false);
@@ -422,23 +410,29 @@ $('#btnUpdateUser').click(function(e){
         $('#role_edit').prop('required',true);
     }
 
-    $('#newUserForm').parsley().validate();
+    if($('#password_edit').val()==""){
+        $('#password_edit').prop('required',false);
+    }else{
+        $('#password_edit').prop('required',true);
+    }
 
-    if($('#newUserForm').parsley().isValid()){
+    $('#editUserForm').parsley().validate();
+
+    if($('#editUserForm').parsley().isValid()){
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $.ajax({
-            url: '/pengguna/postNewUser',
+            url: '/pengguna/postUpdateUser',
             type: 'POST',
-            data: $('#newUserForm').serialize(),
+            data: $('#editUserForm').serialize(),
             dataType: 'JSON',
             success: function (response) {
                 if(response.status=='success'){
-                    $('#newDataError').html('');
-                    $('#newDataError').hide();
+                    $('#editDataError').html('');
+                    $('#editDataError').hide();
                     addDataTableRow(response);
                 }else{
                     //Add list of errors in the modal div
@@ -447,8 +441,8 @@ $('#btnUpdateUser').click(function(e){
                          errorHTML = errorHTML+'<li>'+data[0]+'</li>';
                     });
                     errorHtml = errorHTML+'</ul>';
-                    $('#newDataError').html(errorHTML);
-                    $('#newDataError').show();
+                    $('#editDataError').html(errorHTML);
+                    $('#editDataError').show();
                 }
             }
         });
@@ -456,14 +450,20 @@ $('#btnUpdateUser').click(function(e){
 });
 
 $('#btnTambah').click(function(){
-    $('#newUserForm').parsley().reset();
-    $('#newUserForm').trigger('reset');
-    $('#newDataError').html('');
-    $('#newDataError').hide();
+    $('#editUserForm').parsley().reset();
+    $('#editUserForm').trigger('reset');
+    $('#editDataError').html('');
+    $('#editDataError').hide();
 });
 
 $('#modal-edit-user').on('show.bs.modal',function(event){
+    $('#editUserForm').parsley().reset();
+    $('#editUserForm').trigger('reset');
+    $('#editDataError').html('');
+    $('#editDataError').hide();
+
     var button = $(event.relatedTarget);
+    $('#user_id').val(button.data('id'));
     $('#name_edit').val(button.data('name'));
     $('#ic_number_edit').val(button.data('ic_number'));
     $('#email_edit').val(button.data('email'));
@@ -475,9 +475,8 @@ $('#modal-edit-user').on('show.bs.modal',function(event){
         $('#role_edit option:contains("' + button.data('role') + '")').attr('selected', 'selected');
         $('#role_edit').prop('disabled',false);
     }
-        
-     
-}); 
+
+});
 
 </script>
 @endpush
