@@ -69,6 +69,7 @@ Route::post('/lesen/tumbuhan/postRenewPermit',[App\Http\Controllers\LesenTumbuha
 Route::get('/pengguna',[App\Http\Controllers\PenggunaController::class,'index'])->middleware();
 Route::post('/pengguna/loadUserDatatable', [App\Http\Controllers\PenggunaController::class,'loadUserDatatable'])->middleware();
 Route::post('/pengguna/postNewUser',[App\Http\Controllers\PenggunaController::class,'postNewUser'])->middleware();
+Route::post('/pengguna/postUpdateUser',[App\Http\Controllers\PenggunaController::class,'postUpdateUser'])->middleware();
 Route::get('/permohonan/semak',[App\Http\Controllers\SemakController::class,'index']);
 Route::post('/permohonan/semak/postGetInfo',[App\Http\Controllers\SemakController::class,'postGetInfo']);
 
