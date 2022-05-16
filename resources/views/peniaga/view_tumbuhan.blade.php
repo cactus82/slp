@@ -159,10 +159,12 @@
                                                                 {{ basename($item->original_name) }}</a>
                                                             <span class="mailbox-attachment-size">
                                                                 {{ $item->file_size }}KB
+                                                                @if (in_array($borang->status_borang_id,array(3,7,8)))
                                                                 <a href="/permit/peniaga/deletefile/tumbuhan/{{ $item->id }}"
                                                                     onclick="return confirm('Adakah anda pasti untuk delete fail ini?')"
                                                                     class="btn btn-default btn-xs pull-right"><i
                                                                         class="fas fa-times"></i></a>
+                                                                @endif
                                                                 <a href="/permit/peniaga/download/tumbuhan/{{ basename($item->file_name) }}"
                                                                     class="btn btn-default btn-xs pull-right"><i
                                                                         class="fas fa-download"></i></a>
