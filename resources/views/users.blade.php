@@ -166,7 +166,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Nama Penuh</label>
-                                <input type="text" class="form-control" id="name_edit" name="name_edit"
+                                <input type="text" class="form-control" id="name_edit" name="name"
                                     data-parsley-error-message="<p class='text-red'>Nama penuh diperlukan!</p>"
                                     required>
                             </div>
@@ -176,7 +176,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Nombor Kad Pengenalan</label>
-                                <input type="text" class="form-control" id="ic_number_edit" name="ic_number_edit"
+                                <input type="text" class="form-control" id="ic_number_edit" name="ic_number"
                                     placeholder="Contoh: 840912125116 (tanpa -)"
                                     data-parsley-error-message="<p class='text-red'>Nombor Kad Pengenalan diperlukan!</p>"
                                     required>
@@ -187,7 +187,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="text" class="form-control" id="email_edit" name="email_edit" required
+                                <input type="text" class="form-control" id="email_edit" name="email" required
                                     data-parsley-error-message="<p class='text-red'>Email diperlukan!</p>">
                             </div>
                         </div>
@@ -196,7 +196,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Role</label>
-                                <select name="role_edit" id="role_edit" class="form-control"
+                                <select name="role" id="role_edit" class="form-control"
                                     data-parsley-error-message="<p class='text-red'>Diperlukan!</p>" required>
                                     <option value="" selected>Pilih</option>
                                     <option value="normal">normal</option>
@@ -211,7 +211,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Reset Password (optional)</label>
-                                <input type="password" class="form-control" id="password_edit" name="password_edit"
+                                <input type="password" class="form-control" id="password_edit" name="password"
                                     required data-parsley-error-message="<p class='text-red'>Password diperlukan!</p>">
                             </div>
                         </div>
