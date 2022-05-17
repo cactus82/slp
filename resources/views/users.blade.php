@@ -434,12 +434,19 @@ $('#btnUpdateUser').click(function(e){
                     $('#editDataError').html('');
                     $('#editDataError').hide();
                     addDataTableRow(response);
+                    $('#modal-edit-user').modal('hide');
                 }else{
                     //Add list of errors in the modal div
                     var errorHTML = '<strong>Error!</strong><ul>';
                     $.each(response.errors,function(i,data){
                          errorHTML = errorHTML+'<li>'+data[0]+'</li>';
                     });
+                    if(response.email_error != ""){
+                        errorHTML = errorHTML+'<li>'+response.email_error+'</li>';
+                    }
+                    if(response.ic_error != ""){
+                        errorHTML = errorHTML+'<li>'+response.ic_error+'</li>';
+                    }
                     errorHtml = errorHTML+'</ul>';
                     $('#editDataError').html(errorHTML);
                     $('#editDataError').show();
