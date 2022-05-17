@@ -72,6 +72,7 @@ Route::post('/pengguna/postNewUser',[App\Http\Controllers\PenggunaController::cl
 Route::post('/pengguna/postUpdateUser',[App\Http\Controllers\PenggunaController::class,'postUpdateUser'])->middleware();
 Route::get('/permohonan/semak',[App\Http\Controllers\SemakController::class,'index']);
 Route::post('/permohonan/semak/postGetInfo',[App\Http\Controllers\SemakController::class,'postGetInfo']);
+Route::post('/pengguna/postDeleteUser',[App\Http\Controllers\PenggunaController::class,'postDeleteUser'])->middleware();
 
 //General
 Route::post('/lesen/postUpdatePejabatPembayaran',[App\Http\Controllers\GeneralController::class,'postUpdatePejabatPembayaran'])->middleware();
