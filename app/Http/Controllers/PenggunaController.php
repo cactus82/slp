@@ -120,6 +120,5 @@ class PenggunaController extends Controller
                 return response()->json(array('status'=>'success','result'=>$result));
             }
         }
-
     }
 }
