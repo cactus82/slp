@@ -100,25 +100,25 @@ class PenggunaController extends Controller
         if($validator->fails()){
             return response()->json(array('status'=>'fails','errors'=>$validator->errors(),'email_error'=>$emailExistError,'ic_error'=>$icNumberExsitError));
         }else{
-            $rec = User::find(request('user_id'));
-            $rec->name = request('name');
-            $rec->ic_number = request('ic_number');
-            $rec->email = request('email');
-            if(request('password')){
-                $rec->password = Hash::make(request('password'));
-            }
-            if(request('role')){
-                $rec->role = request('role');
-            }
-            $rec->save();
-
-            $result = DB::select(DB::raw("SELECT users.*,DATE_FORMAT(updated_at,'%d/%m/%Y %h:%i%p') AS update_date FROM users"));
-
             if($errorStatus == "fail"){
                 return response()->json(array('status'=>'fails','errors'=>$validator->errors(),'email_error'=>$emailExistError,'ic_error'=>$icNumberExsitError));
             }else{
+                $rec = User::find(request('user_id'));
+                $rec->name = request('name');
+                $rec->ic_number = request('ic_number');
+                $rec->email = request('email');
+                if(request('password')){
+                    $rec->password = Hash::make(request('password'));
+                }
+                if(request('role')){
+                    $rec->role = request('role');
+                }
+                $rec->save();
+
+                $result = DB::select(DB::raw("SELECT users.*,DATE_FORMAT(updated_at,'%d/%m/%Y %h:%i%p') AS update_date FROM users"));
                 return response()->json(array('status'=>'success','result'=>$result));
             }
         }
+
     }
 }
