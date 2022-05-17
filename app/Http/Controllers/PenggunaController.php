@@ -119,6 +119,13 @@ class PenggunaController extends Controller
                 return response()->json(array('status'=>'success','result'=>$result));
             }
         }
-
+    }
+    
+    public function postDeleteUser(){
+        // dd(request()->all());
+        $rec = User::find(request('uid'));
+        $rec->delete();
+        $result = DB::select(DB::raw("SELECT users.*,DATE_FORMAT(updated_at,'%d/%m/%Y %h:%i%p') AS update_date FROM users"));
+        return response()->json(array('result'=>$result));
     }
 }
