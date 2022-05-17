@@ -341,19 +341,12 @@ function addDataTableRow(response){
 $('#tablePengguna').on("click",".btnDeleteUser",function(){
     if(confirm('Adakah anda pasti untuk hapuskan pengguna ini? Klik OK untuk hapuskan sekarang')){
         var row_id = $(this).closest('.btnDeleteUser').attr('data-id');
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        //Send ajax requests
         $.ajax({
             url: '/pengguna/postDeleteUser',
             type: 'POST',
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
-                borang_id: row_id,
+                uid: row_id,
                 },
             dataType: 'JSON',
             success: function (response) {
